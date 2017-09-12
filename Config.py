@@ -1,7 +1,7 @@
 
 
 # Excel文件目录
-EXCEL_DIR = ""
+EXCEL_DIR = "E:\\Xieliujian\\Excel2Unity\\trunk\\Excel"
 
 # Unity数据目录
 UNITY_TABLE_DATA_DIR = ""
