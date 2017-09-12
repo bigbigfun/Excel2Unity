@@ -1,10 +1,10 @@
 
+import os
 import xlrd
 
-def main():
-	i = 0
+class Excel2Unity :
 
-if __name__ == "__main__":
-	main()
-
+	def process(self):
+		print("111111111111")
+	
 
