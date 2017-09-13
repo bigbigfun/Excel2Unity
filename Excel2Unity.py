@@ -7,7 +7,7 @@ class Excel2Unity :
 	def __init__(self):
 		self.mExcelFiles = []	# 所有的excel文件
 
-	# 处理函数
+	# 外部处理函数
 	def process(self):
 		self.recursiveSearchExcel(EXCEL_DIR)
 		print(self.mExcelFiles)
