@@ -1,7 +1,7 @@
 
 
 # Excel文件目录
-EXCEL_DIR = ".\\Excel"
+EXCEL_DIR = "./Excel"
 
 # Unity数据目录
 UNITY_TABLE_DATA_DIR = ""
