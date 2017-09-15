@@ -44,5 +44,3 @@ class Excel2Unity:
 
 			UnityFileGen().process(filename)
 			UnityCodeGen().process(filename)
-
-
