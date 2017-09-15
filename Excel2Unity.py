@@ -2,6 +2,8 @@
 import os
 import xlrd
 from Config import EXCEL_Dir
+from Gen.UnityFileGen import UnityFileGen
+from Gen.UnityCodeGen import UnityCodeGen
 
 
 class Excel2Unity:
@@ -15,7 +17,7 @@ class Excel2Unity:
 		self.process_clientexcel()
 		self.process_serverexcel()
 		print(self.mExcelFiles)
-	
+
 	# 递归查找文件
 	def recursive_searchexcel(self, path):
 		for pathdir in os.listdir(path):		# 遍历当前目录
@@ -40,6 +42,8 @@ class Excel2Unity:
 
 			print(rows)
 			print(cols)
+			UnityFileGen().process(filename)
+			UnityCodeGen().process(filename)
 
 	# 处理服务器的excel文件
 	def process_serverexcel(self):
