@@ -10,6 +10,8 @@ class Excel2Unity :
 	# 外部处理函数
 	def process(self):
 		self.recursiveSearchExcel(EXCEL_DIR)
+		self.processClientExcel()
+		self.processServerExcel()
 		print(self.mExcelFiles)
 
 	# 递归查找文件
@@ -22,3 +24,11 @@ class Excel2Unity :
 			elif(os.path.isfile(fullpath)):
 				if (os.path.splitext(fullpath)[1] == ".xlsx"):
 					self.mExcelFiles.append(fullpath)
+
+	# 处理客户端的excel文件
+	def processClientExcel(self):
+		i = 0
+
+	# 处理服务器的excel文件
+	def processServerExcel(self):
+		i = 0
