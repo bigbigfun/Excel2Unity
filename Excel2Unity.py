@@ -15,7 +15,7 @@ class Excel2Unity:
 		self.process_clientexcel()
 		self.process_serverexcel()
 		print(self.mExcelFiles)
-
+	
 	# 递归查找文件
 	def recursive_searchexcel(self, path):
 		for pathdir in os.listdir(path):		# 遍历当前目录
@@ -26,12 +26,20 @@ class Excel2Unity:
 			elif os.path.isfile(fullpath):
 				if os.path.splitext(fullpath)[1] == ".xlsx":
 					self.mExcelFiles.append(fullpath)
-	
+
 	# 处理客户端的excel文件
 	def process_clientexcel(self):
 		for filename in self.mExcelFiles:
-			filename += ""
-			# data = xlrd.open_workbook(filename)
+			data = xlrd.open_workbook(filename)
+			table = data.sheets()[0]
+			rows = table.nrows
+			cols = table.ncols
+
+			if table.nrows == 0 or table.ncols == 0:
+				print("empty files : " + filename)
+
+			print(rows)
+			print(cols)
 
 	# 处理服务器的excel文件
 	def process_serverexcel(self):
