@@ -37,10 +37,26 @@ class Excel2Unity:
 			if table.nrows == 0 or table.ncols == 0:
 				print("empty files : " + filename)
 
-			rows = table.nrows
-			cols = table.ncols
-			print(rows)
-			print(cols)
+			self.process_excel_client(filename, table)
+			# self.process_excel_server(filename, table)
 
-			UnityFileGen().process(filename)
-			UnityCodeGen().process(filename)
+	# client的excel的处理
+	def process_excel_client(self, filename, table):
+		fields = self.filter_fielddata(table)
+		UnityFileGen().process(filename, fields)
+		UnityCodeGen().process(filename, fields)
+
+	# server的excel的处理
+	def process_excel_server(self, filename, table):
+		fields = self.filter_fielddata(table)
+		print("process_excel_server : " + filename + str(fields))
+
+	# 筛选字段数据
+	def filter_fielddata(self, table):
+		fields = []
+		for index in range(table.ncols):
+			row = table.cell(1, index).value
+			if row == "CS":
+				fields.append(row)
+
+		return fields
