@@ -1,22 +1,22 @@
 
 
 # Excel文件目录
-EXCEL_Dir = "./Excel"
+EXCEL_DIR = "./Excel"
 
 # Unity数据目录
-UNITY_TABLE_DATA_DIR = ""
+UNITY_TABLE_DATA_DIR = "./UnityData"
 
 # Unity代码目录
-UNITY_TABLE_CODE_DIR = ""
+UNITY_TABLE_CODE_DIR = "./UnityCode"
 
-# Go数据目录
-GO_TABLE_DATA_DIR = ""
+# unity表格字段的过滤
+UNITY_TABLE_FIELD_FILTER = ["cs", "c", "CS", "C"]
 
-# Go代码目录
-GO_TABLE_CODE_DIR = ""
+# 服务器表格字段的过滤
+SERVER_TABLE_FIELD_FILTER = ["cs", "s", "CS", "S"]
 
-# c++数据目录
-CPLUSPLUS_TABLE_DATA_DIR = ""
+# excel文件的后缀
+EXCEL_EXT = ".xlsx"
 
-# c++代码目录
-CPLUSPLUS_TABLE_CODE_DIR = ""
+# unity数据的后缀
+UNITY_TABLE_DATA_EXT = ".txt"
