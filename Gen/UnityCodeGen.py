@@ -47,7 +47,10 @@ class UnityCodeGen(CodeGen):
 
 		filecontent += "}\n"
 		filecontent += "\n"
+
+		# table manager class
 		
+
 		# 保存
 		file = open(path, "wb")
 		file.write(filecontent.encode())
