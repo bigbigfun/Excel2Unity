@@ -20,3 +20,6 @@ EXCEL_EXT = ".xlsx"
 
 # unity数据的后缀
 UNITY_TABLE_DATA_EXT = ".txt"
+
+# unity文件的后缀
+UNITY_TABLE_CODE_EXT = ".cs"

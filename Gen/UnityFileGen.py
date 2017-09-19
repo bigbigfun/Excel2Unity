@@ -30,6 +30,7 @@ class UnityFileGen(FileGen):
 
 			fileContent += "\n"
 
+		# 保存
 		file = open(path, "wb")
 		file.write(fileContent.encode())
 		file.close()
