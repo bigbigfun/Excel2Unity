@@ -29,6 +29,7 @@ class UnityCodeGen(CodeGen):
 		filecontent += "using UnityEngine;\n"
 		filecontent += "\n"
 
+		# table class
 		tablename = os.path.basename(path)
 		tablename = tablename.split(".")[0] + "Config"
 		filecontent += "public class " + tablename + "\n"
@@ -41,12 +42,12 @@ class UnityCodeGen(CodeGen):
 
 		filecontent += "	public " + tablename + "(string line)\n"
 		filecontent += "	{\n"
-		
+		filecontent += "		string []fields = line.Split('\t');\n"
 		filecontent += "	}\n"
 
 		filecontent += "}\n"
 		filecontent += "\n"
-
+		
 		# 保存
 		file = open(path, "wb")
 		file.write(filecontent.encode())
