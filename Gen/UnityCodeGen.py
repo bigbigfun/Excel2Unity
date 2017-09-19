@@ -8,6 +8,9 @@ import os
 
 
 class UnityCodeGen(CodeGen):
+	def __init__(self):
+		self.mFileContent = ""
+
 	# 代码生成函数
 	def process(self, filename, fields, table):
 		# 创建输出路径
@@ -22,36 +25,57 @@ class UnityCodeGen(CodeGen):
 			os.makedirs(filedir)
 
 		# 填充内容
-		filecontent = ""
-		filecontent += "using System.Collections.Generic;\n"
-		filecontent += "using System.IO;\n"
-		filecontent += "using System.Text;\n"
-		filecontent += "using UnityEngine;\n"
-		filecontent += "\n"
+		self.mFileContent = ""
+		self.mFileContent += "using System.Collections.Generic;\n"
+		self.mFileContent += "using System.IO;\n"
+		self.mFileContent += "using System.Text;\n"
+		self.mFileContent += "using UnityEngine;\n"
+		self.mFileContent += "\n"
 
 		# table class
-		tablename = os.path.basename(path)
-		tablename = tablename.split(".")[0] + "Config"
-		filecontent += "public class " + tablename + "\n"
-		filecontent += "{\n"
+		tablebasename = os.path.basename(path)
+		tablebasename = tablebasename.split(".")[0]
+		tablename = tablebasename + "Cfg"
+		self.mFileContent += "public class " + tablename + "\n"
+		self.mFileContent += "{\n"
 
 		for index in fields:
 			fieldtype = table.cell(2, index).value
 			fieldname = table.cell(3, index).value
-			filecontent += "	public " + fieldtype + " " + fieldname + ";\n"
+			fieldtype = fieldtype.lower()
+			self.mFileContent += "	public " + fieldtype + " " + fieldname + ";\n"
 
-		filecontent += "	public " + tablename + "(string line)\n"
-		filecontent += "	{\n"
-		filecontent += "		string []fields = line.Split('\t');\n"
-		filecontent += "	}\n"
+		self.mFileContent += "	public " + tablename + "(string line)\n"
+		self.mFileContent += "	{\n"
+		self.mFileContent += "		string []fields = line.Split('\t');\n"
 
-		filecontent += "}\n"
-		filecontent += "\n"
+		for index in fields:
+			fieldtype = table.cell(2, index).value
+			fieldname = table.cell(3, index).value
+			fieldtype = fieldtype.lower()
+			self.parse_fieldtype(fieldtype, fieldname, index)
+
+		self.mFileContent += "	}\n"
+		self.mFileContent += "}\n"
+		self.mFileContent += "\n"
 
 		# table manager class
-		
+		self.mFileContent += "public class " + tablename + "Manager\n"
+		self.mFileContent += "{\n"
+		self.mFileContent += "	" + "Dictionary<int, " + tablename + "> mDict = new Dictionary<int, " + tablename + ">();\n"
+		self.mFileContent += "\n"
+		self.mFileContent += "	public void InitTable()\n"
+		self.mFileContent += "	{\n"
+
+		self.mFileContent += "	}\n"
+		self.mFileContent += "}\n"
 
 		# 保存
 		file = open(path, "wb")
-		file.write(filecontent.encode())
+		file.write(self.mFileContent.encode())
 		file.close()
+
+	# 解析
+	def parse_fieldtype(self, fieldtype, fieldname, index):
+		if fieldtype == "int" or fieldtype == "float" or fieldtype == "string":
+			self.mFileContent += "		" + fieldname + " = " + fieldtype + ".Parse(fields[" + str(index) + "])\n"
