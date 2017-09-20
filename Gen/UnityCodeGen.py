@@ -40,10 +40,12 @@ class UnityCodeGen(CodeGen):
 		self.mFileContent += "{\n"
 
 		for index in fields:
+			fielddesc = table.cell(0, index).value
 			fieldtype = table.cell(2, index).value
 			fieldname = table.cell(3, index).value
 			fieldtype = fieldtype.lower()
-			self.mFileContent += "	public " + fieldtype + " " + fieldname + ";\n"
+			self.mFileContent += "	public " + fieldtype + " " + fieldname + ";"
+			self.mFileContent += "			//		" + fielddesc + "\n"
 
 		self.mFileContent += "	public " + tablename + "(string line)\n"
 		self.mFileContent += "	{\n"
@@ -60,22 +62,55 @@ class UnityCodeGen(CodeGen):
 		self.mFileContent += "\n"
 
 		# table manager class
-		self.mFileContent += "public class " + tablename + "Manager\n"
+		tablemgrname = tablename + "Manager";
+		self.mFileContent += "public class " + tablemgrname + "\n"
 		self.mFileContent += "{\n"
 		self.mFileContent += "	" + "Dictionary<int, " + tablename + "> mDict = new Dictionary<int, " + tablename + ">();\n"
 		self.mFileContent += "\n"
 		self.mFileContent += "	public void InitTable()\n"
 		self.mFileContent += "	{\n"
-
+		self.mFileContent += "		string tablename = " + tablebasename + ";\n"
+		self.mFileContent += "		string path = string.Format({0}.txt), tablename)\n"
+		self.mFileContent += "		StreamReader sr = new StreamReader(path, Encoding.UTF8);\n"
+		self.mFileContent += "		string line;\n"
+		self.mFileContent += "		while ((line = sr.ReadLine()) != null)\n"
+		self.mFileContent += "		{\n"
+		self.mFileContent += "			line = line.Trim();\n"
+		self.mFileContent += "			if (line.Length > 0)\n"
+		self.mFileContent += "			{\n"
+		self.mFileContent += "				" + tablename + " rowdata = new " + tablename + "(line);\n"
+		self.mFileContent += "				mDict.Add(rowdata." + table.cell(3, 0).value + ", rowdata);\n"
+		self.mFileContent += "			}\n"
+		self.mFileContent += "			else\n"
+		self.mFileContent += "			{\n"
+		self.mFileContent += "				continue;\n"
+		self.mFileContent += "			}\n"
+		self.mFileContent += "		}\n"
 		self.mFileContent += "	}\n"
+
+		keytype = table.cell(2, 0).value
+		keytype = keytype.lower()
+		self.mFileContent += "\n"
+		self.mFileContent += "	public " + tablename + " GetDataByID(" + keytype + " id)\n"
+		self.mFileContent += "	{\n"
+		self.mFileContent += "		" + tablename + " rowdata = null;\n"
+		self.mFileContent += "		mDict.TryGetValue(id, out rowdata);\n"
+		self.mFileContent += "		return rowdata;\n"
+		self.mFileContent += "	}\n"
+
+		self.mFileContent += "\n"
+		self.mFileContent += "	private " + tablemgrname + "() { }\n"
+		self.mFileContent += "	public static readonly " + tablemgrname + " Instance = new " + tablemgrname + "();\n"
+
 		self.mFileContent += "}\n"
 
-		# 保存
+        # 保存
 		file = open(path, "wb")
 		file.write(self.mFileContent.encode())
 		file.close()
 
-	# 解析
+	# 解析字段类型
 	def parse_fieldtype(self, fieldtype, fieldname, index):
 		if fieldtype == "int" or fieldtype == "float" or fieldtype == "string":
 			self.mFileContent += "		" + fieldname + " = " + fieldtype + ".Parse(fields[" + str(index) + "])\n"
+
