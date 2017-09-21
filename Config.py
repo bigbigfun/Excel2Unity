@@ -25,4 +25,4 @@ UNITY_TABLE_DATA_EXT = ".txt"
 UNITY_TABLE_CODE_EXT = ".cs"
 
 # unity的配置管理文件名
-UNITY_CONFIGMANAGER_FILENAME = "ConfigManager.cs"
+UNITY_CONFIGMANAGER_FILENAME = "ConfigManager"

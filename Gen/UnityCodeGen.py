@@ -63,14 +63,16 @@ class UnityCodeGen(CodeGen):
 
 		# table manager class
 		tablemgrname = tablename + "Manager";
+		format = "{0}.txt"
 		self.mFileContent += "public class " + tablemgrname + "\n"
 		self.mFileContent += "{\n"
 		self.mFileContent += "	" + "Dictionary<int, " + tablename + "> mDict = new Dictionary<int, " + tablename + ">();\n"
 		self.mFileContent += "\n"
 		self.mFileContent += "	public void InitTable()\n"
 		self.mFileContent += "	{\n"
-		self.mFileContent += "		string tablename = " + tablebasename + ";\n"
-		self.mFileContent += "		string path = string.Format({0}.txt), tablename)\n"
+		self.mFileContent += "		string tableDir = PathUtil.GetTableDataPath();\n"
+		self.mFileContent += "		string tableName = \"" + tablename + "\";\n"
+		self.mFileContent += "		string path = string.Format(\"{0}{1}.txt\", tableDir, tablename);\n "	#	引号里面有引号的用法
 		self.mFileContent += "		StreamReader sr = new StreamReader(path, Encoding.UTF8);\n"
 		self.mFileContent += "		string line;\n"
 		self.mFileContent += "		while ((line = sr.ReadLine()) != null)\n"
@@ -117,7 +119,7 @@ class UnityCodeGen(CodeGen):
 	# 生成配置管理类
 	@staticmethod
 	def gen_configmangercode(files):
-		path = UNITY_TABLE_CODE_DIR + UNITY_CONFIGMANAGER_FILENAME
+		path = UNITY_TABLE_CODE_DIR + UNITY_CONFIGMANAGER_FILENAME + UNITY_TABLE_CODE_EXT
 
 		filecontent = ""
 		filecontent += "using System.Collections;\n"
@@ -126,9 +128,13 @@ class UnityCodeGen(CodeGen):
 		filecontent += "\n"
 		filecontent += "public class " +  UNITY_CONFIGMANAGER_FILENAME + "\n"
 		filecontent += "{\n"
-		filecontent += "	public void Load()\n"
+		filecontent += "	public static void Load()\n"
 		filecontent += "	{\n"
-
+		for file in files:
+			tablename = os.path.basename(file)
+			tablename = tablename.split(".")[0]
+			tablename += "Cfg"
+			filecontent += "		" +	tablename + "Manager.Instance.InitTable();\n"
 		filecontent += "	}\n"
 		filecontent += "}\n"
 
