@@ -1,6 +1,6 @@
 
 
-class FileGen:
+class DataGen:
 
 	# 文件生成函数
 	def process(self, filename, fields):

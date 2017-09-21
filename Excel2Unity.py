@@ -5,7 +5,7 @@ from Config import EXCEL_DIR
 from Config import UNITY_TABLE_FIELD_FILTER
 from Config import SERVER_TABLE_FIELD_FILTER
 from Config import EXCEL_EXT
-from Gen.UnityFileGen import UnityFileGen
+from Gen.UnityDataGen import UnityDataGen
 from Gen.UnityCodeGen import UnityCodeGen
 
 
@@ -48,7 +48,7 @@ class Excel2Unity:
 	# client的excel的处理
 	def process_excel_client(self, filename, table):
 		fields = self.filter_fielddata(table, UNITY_TABLE_FIELD_FILTER)
-		UnityFileGen().process(filename, fields, table)
+		UnityDataGen().process(filename, fields, table)
 		UnityCodeGen().process(filename, fields, table)
 
 	# server的excel的处理

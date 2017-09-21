@@ -2,11 +2,11 @@
 from Config import EXCEL_DIR
 from Config import UNITY_TABLE_DATA_DIR
 from Config import UNITY_TABLE_DATA_EXT
-from Gen.FileGen import FileGen
+from Gen.DataGen import DataGen
 import os;
 
 
-class UnityFileGen(FileGen):
+class UnityDataGen(DataGen):
 
 	# 文件生成函数
 	def process(self, filename, fields, table):
