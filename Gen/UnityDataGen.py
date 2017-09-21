@@ -23,7 +23,7 @@ class UnityDataGen(DataGen):
 
 		# 生成数据
 		fileContent = ""
-		for row in range(4, table.nrows):
+		for row in range(5, table.nrows):
 			for col in range(table.ncols):
 				if col in fields:
 					fileContent += ("{0}\t").format(table.cell(row, col).value)
