@@ -2,8 +2,8 @@
 from Gen.CodeGen import CodeGen
 from Config import UNITY_TABLE_CODE_DIR
 from Config import UNITY_TABLE_CODE_EXT
+from Config import UNITY_CONFIGMANAGER_FILENAME
 from Config import EXCEL_DIR
-from Config import EXCEL_EXT
 import os
 
 
@@ -113,4 +113,28 @@ class UnityCodeGen(CodeGen):
 	def parse_fieldtype(self, fieldtype, fieldname, index):
 		if fieldtype == "int" or fieldtype == "float" or fieldtype == "string":
 			self.mFileContent += "		" + fieldname + " = " + fieldtype + ".Parse(fields[" + str(index) + "])\n"
+
+	# 生成配置管理类
+	@staticmethod
+	def gen_configmangercode(files):
+		path = UNITY_TABLE_CODE_DIR + UNITY_CONFIGMANAGER_FILENAME
+
+		filecontent = ""
+		filecontent += "using System.Collections;\n"
+		filecontent += "using System.Collections.Generic;\n"
+		filecontent += "using UnityEngine;\n"
+		filecontent += "\n"
+		filecontent += "public class " +  UNITY_CONFIGMANAGER_FILENAME + "\n"
+		filecontent += "{\n"
+		filecontent += "	public void Load()\n"
+		filecontent += "	{\n"
+
+		filecontent += "	}\n"
+		filecontent += "}\n"
+
+		# 保存
+		file = open(path, "wb")
+		file.write(filecontent.encode())
+		file.close()
+
 

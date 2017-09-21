@@ -42,6 +42,9 @@ class Excel2Unity:
 			self.process_excel_client(filename, table)
 			# self.process_excel_server(filename, table)
 
+		# 生成unity的配置管理文件
+		UnityCodeGen.gen_configmangercode(self.mExcelFiles)
+
 	# client的excel的处理
 	def process_excel_client(self, filename, table):
 		fields = self.filter_fielddata(table, UNITY_TABLE_FIELD_FILTER)
