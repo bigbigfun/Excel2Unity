@@ -46,7 +46,7 @@ class UnityCodeGen(CodeGen):
 			fieldtype = fieldtype.lower()
 			self.mFileContent += "	public " + fieldtype + " " + fieldname + ";"
 			self.mFileContent += "			//		" + fielddesc + "\n"
-		
+
 		self.mFileContent += "	public " + tablename + "(string line)\n"
 		self.mFileContent += "	{\n"
 		self.mFileContent += "		string []fields = line.Split('\t');\n"
