@@ -50,6 +50,7 @@ class UnityCodeGen(CodeGen):
 			self.mFileContent += "	public " + fieldtype + " " + fieldname + ";"
 			self.mFileContent += "			//		" + fielddesc + "\n"
 
+		self.mFileContent += "\n"
 		self.mFileContent += "	public " + tablename + "(string line)\n"
 		self.mFileContent += "	{\n"
 		self.mFileContent += "		string []fields = line.Split('\t');\n"
@@ -79,6 +80,7 @@ class UnityCodeGen(CodeGen):
 		self.mFileContent += "public class " + tablemgrname + "\n"
 		self.mFileContent += "{\n"
 
+		# 根据keylist判断
 		uselist = (keylist.__len__() != 1)
 		if uselist:
 			self.mFileContent += "	private List<" + tablename + "> mList = new List<" + tablename + ">();\n"
@@ -93,6 +95,7 @@ class UnityCodeGen(CodeGen):
 		self.mFileContent += "		string path = string.Format(\"{0}{1}.txt\", tableDir, tablename);\n "	#	引号里面有引号的用法
 		self.mFileContent += "		StreamReader sr = new StreamReader(path, Encoding.UTF8);\n"
 		self.mFileContent += "		string line;\n"
+		self.mFileContent += "\n"
 		self.mFileContent += "		while ((line = sr.ReadLine()) != null)\n"
 		self.mFileContent += "		{\n"
 		self.mFileContent += "			line = line.Trim();\n"
@@ -100,6 +103,7 @@ class UnityCodeGen(CodeGen):
 		self.mFileContent += "			{\n"
 		self.mFileContent += "				" + tablename + " rowdata = new " + tablename + "(line);\n"
 
+		# 根据keylist判断
 		if uselist:
 			self.mFileContent += "				mList.Add(" "rowdata);\n"
 		else:
@@ -113,18 +117,12 @@ class UnityCodeGen(CodeGen):
 		self.mFileContent += "		}\n"
 		self.mFileContent += "	}\n"
 
-		keytype = table.cell(2, 0).value
-		keytype = keytype.lower()
-		self.mFileContent += "\n"
-		self.mFileContent += "	public " + tablename + " GetDataByID(" + keytype + " id)\n"
-		self.mFileContent += "	{\n"
-		self.mFileContent += "		" + tablename + " rowdata = null;\n"
-		self.mFileContent += "		mDict.TryGetValue(id, out rowdata);\n"
-		self.mFileContent += "		return rowdata;\n"
-		self.mFileContent += "	}\n"
+		# 生成生成数据函数
+		self.gen_gendatafunc(table, tablename, keylist)
 
 		self.mFileContent += "\n"
 		self.mFileContent += "	private " + tablemgrname + "() { }\n"
+		self.mFileContent += "\n"
 		self.mFileContent += "	public static readonly " + tablemgrname + " Instance = new " + tablemgrname + "();\n"
 
 		self.mFileContent += "}\n"
@@ -138,6 +136,54 @@ class UnityCodeGen(CodeGen):
 	def parse_fieldtype(self, fieldtype, fieldname, index):
 		if fieldtype == "int" or fieldtype == "float" or fieldtype == "string":
 			self.mFileContent += "		" + fieldname + " = " + fieldtype + ".Parse(fields[" + str(index) + "])\n"
+
+	# 生成生成数据函数
+	def gen_gendatafunc(self, table, tablename, keylist):
+		keylen = keylist.__len__()
+		if keylen == 0:		# 没有key值没有生成函数
+			return;
+		elif keylen == 1:	# 有一个key值使用dict取值
+			keytype = table.cell(2, keylist[0]).value
+			keytype = keytype.lower()
+			self.mFileContent += "\n"
+			self.mFileContent += "	public " + tablename + " GetDataByID(" + keytype + " id)\n"
+			self.mFileContent += "	{\n"
+			self.mFileContent += "		" + tablename + " rowdata = null;\n"
+			self.mFileContent += "		mDict.TryGetValue(id, out rowdata);\n"
+			self.mFileContent += "		return rowdata;\n"
+			self.mFileContent += "	}\n"
+		else:
+			self.mFileContent += "\n"
+
+			self.mFileContent += "	public " + tablename + " GetDataByID("
+			for keyindex in keylist:
+				keytype = table.cell(2, keyindex).value
+				keytype = keytype.lower()
+				keyval = table.cell(3, keyindex).value
+				self.mFileContent += keytype + " _" + keyval
+				if keyindex != (keylen - 1):
+					self.mFileContent += ", "
+			self.mFileContent += ")\n"
+
+			self.mFileContent += "	{\n"
+			self.mFileContent += "		foreach (" + tablename + " data in mList)\n"
+			self.mFileContent += "		{\n"
+
+			self.mFileContent += "			if ("
+			for keyindex in keylist:
+				keyval = table.cell(3, keyindex).value
+				self.mFileContent += "data." + keyval + " == _" + keyval
+				if keyindex != (keylen - 1):
+					self.mFileContent += " && "
+			self.mFileContent += ")\n"
+
+			self.mFileContent += "			{\n"
+			self.mFileContent += "				return data;\n"
+			self.mFileContent += "			}\n"
+			self.mFileContent += "		}\n"
+			self.mFileContent += "\n"
+			self.mFileContent += "		return null;\n"
+			self.mFileContent += "	}\n"
 
 	# 生成配置管理类
 	@staticmethod
