@@ -1,5 +1,6 @@
 
 from Gen.CodeGen import CodeGen
+from Config import KEY_MODIFIER_NAME
 from Config import UNITY_TABLE_CODE_DIR
 from Config import UNITY_TABLE_CODE_EXT
 from Config import UNITY_CONFIGMANAGER_FILENAME
@@ -13,6 +14,8 @@ class UnityCodeGen(CodeGen):
 
 	# 代码生成函数
 	def process(self, filename, fields, table):
+		# -----------------------table cfg class-----------------------
+
 		# 创建输出路径
 		path = filename.replace(EXCEL_DIR, "")
 		path = UNITY_TABLE_CODE_DIR + path
@@ -51,6 +54,7 @@ class UnityCodeGen(CodeGen):
 		self.mFileContent += "	{\n"
 		self.mFileContent += "		string []fields = line.Split('\t');\n"
 
+		# 解析字段
 		for index in fields:
 			fieldtype = table.cell(2, index).value
 			fieldname = table.cell(3, index).value
@@ -61,12 +65,26 @@ class UnityCodeGen(CodeGen):
 		self.mFileContent += "}\n"
 		self.mFileContent += "\n"
 
-		# table manager class
+		# -----------------------table cfg manager class-----------------------
+
+		# 获得keylist
+		keylist = []
+		for index in fields:
+			value = table.cell(4, index).value
+			if value == KEY_MODIFIER_NAME:
+				keylist.append(index)
+
 		tablemgrname = tablename + "Manager";
 		format = "{0}.txt"
 		self.mFileContent += "public class " + tablemgrname + "\n"
 		self.mFileContent += "{\n"
-		self.mFileContent += "	" + "Dictionary<int, " + tablename + "> mDict = new Dictionary<int, " + tablename + ">();\n"
+
+		uselist = (keylist.__len__() != 1)
+		if uselist:
+			self.mFileContent += "	private List<" + tablename + "> mList = new List<" + tablename + ">();\n"
+		else:
+			self.mFileContent += "	private Dictionary<int, " + tablename + "> mDict = new Dictionary<int, " + tablename + ">();\n"
+
 		self.mFileContent += "\n"
 		self.mFileContent += "	public void InitTable()\n"
 		self.mFileContent += "	{\n"
@@ -81,7 +99,12 @@ class UnityCodeGen(CodeGen):
 		self.mFileContent += "			if (line.Length > 0)\n"
 		self.mFileContent += "			{\n"
 		self.mFileContent += "				" + tablename + " rowdata = new " + tablename + "(line);\n"
-		self.mFileContent += "				mDict.Add(rowdata." + table.cell(3, 0).value + ", rowdata);\n"
+
+		if uselist:
+			self.mFileContent += "				mList.Add(" "rowdata);\n"
+		else:
+			self.mFileContent += "				mDict.Add(rowdata." + table.cell(3, 0).value + ", rowdata);\n"
+
 		self.mFileContent += "			}\n"
 		self.mFileContent += "			else\n"
 		self.mFileContent += "			{\n"
