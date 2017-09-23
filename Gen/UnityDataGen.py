@@ -1,5 +1,6 @@
 
 from Config import EXCEL_DIR
+from Config import UNITY_TABLE_ROOT_DIR
 from Config import UNITY_TABLE_DATA_DIR
 from Config import UNITY_TABLE_DATA_EXT
 from Gen.DataGen import DataGen
@@ -12,7 +13,7 @@ class UnityDataGen(DataGen):
 	def process(self, filename, fields, table):
 		# 创建输出路径
 		path = filename.replace(EXCEL_DIR, "")
-		path = UNITY_TABLE_DATA_DIR + path
+		path = UNITY_TABLE_ROOT_DIR + UNITY_TABLE_DATA_DIR + path
 		path = os.path.splitext(path)[0]
 		path += UNITY_TABLE_DATA_EXT
 

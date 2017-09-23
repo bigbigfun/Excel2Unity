@@ -50,7 +50,7 @@ public class ConfigUtil
         return JsonUtility.FromJson<Dictionary<string, string>>(data);
     }
 
-    private static string  GetGameDataPath()
+    public static string  GetGameDataPath()
     {
         string path = "";
 #if UNITY_EDITOR

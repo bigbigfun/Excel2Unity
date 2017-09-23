@@ -21,7 +21,7 @@ class UnityCodeGen(CodeGen):
 
 		# 创建输出路径
 		path = filename.replace(EXCEL_DIR, "")
-		path = UNITY_TABLE_CODE_DIR + path
+		path = UNITY_TABLE_ROOT_DIR + UNITY_TABLE_CODE_DIR + path
 		path = os.path.splitext(path)[0]
 		path = path + UNITY_TABLE_CODE_EXT
 
@@ -234,7 +234,7 @@ class UnityCodeGen(CodeGen):
 	# 生成配置管理类
 	@staticmethod
 	def gen_configmangercode(files):
-		path = UNITY_TABLE_CODE_DIR + UNITY_CONFIGMANAGER_FILENAME + UNITY_TABLE_CODE_EXT
+		path = UNITY_TABLE_ROOT_DIR + UNITY_TABLE_CODE_DIR + UNITY_CONFIGMANAGER_FILENAME + UNITY_TABLE_CODE_EXT
 
 		filecontent = ""
 		filecontent += "using System.Collections;\n"
@@ -265,6 +265,6 @@ class UnityCodeGen(CodeGen):
 		for file in listfile:
 			if os.path.splitext(file)[1] == UNITY_TABLE_CODE_EXT:
 				srcpath = os.path.join(UNITY_TABLE_PARSECODE_DIR, file)
-				dstpath = os.path.join(UNITY_TABLE_CODE_DIR, file)
+				dstpath = os.path.join(UNITY_TABLE_ROOT_DIR + UNITY_TABLE_CODE_DIR, file)
 				shutil.copy(srcpath, dstpath)
 
