@@ -9,6 +9,9 @@ UNITY_TABLE_DATA_DIR = "./UnityData/"
 # Unity代码目录
 UNITY_TABLE_CODE_DIR = "./UnityCode/"
 
+# Unity解析文件目录
+UNITY_TABLE_PARSECODE_DIR = "./Parse/Unity/"
+
 # unity表格字段的过滤
 UNITY_TABLE_FIELD_FILTER = ["cs", "c", "CS", "C"]
 

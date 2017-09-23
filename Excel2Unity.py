@@ -44,6 +44,7 @@ class Excel2Unity:
 
 		# 生成unity的配置管理文件
 		UnityCodeGen.gen_configmangercode(self.mExcelFiles)
+		UnityCodeGen.copy_parsecode()
 
 	# client的excel的处理
 	def process_excel_client(self, filename, table):

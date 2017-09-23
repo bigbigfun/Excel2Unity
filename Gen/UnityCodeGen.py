@@ -3,9 +3,11 @@ from Gen.CodeGen import CodeGen
 from Config import KEY_MODIFIER_NAME
 from Config import UNITY_TABLE_CODE_DIR
 from Config import UNITY_TABLE_CODE_EXT
+from Config import UNITY_TABLE_PARSECODE_DIR
 from Config import UNITY_CONFIGMANAGER_FILENAME
 from Config import EXCEL_DIR
 import os
+import shutil
 
 
 class UnityCodeGen(CodeGen):
@@ -256,4 +258,12 @@ class UnityCodeGen(CodeGen):
 		file.write(filecontent.encode())
 		file.close()
 
-
+	# 复制解析代码
+	@staticmethod
+	def copy_parsecode():
+		listfile = os.listdir(UNITY_TABLE_PARSECODE_DIR)
+		for file in listfile:
+			if os.path.splitext(file)[1] == UNITY_TABLE_CODE_EXT:
+				srcpath = os.path.join(UNITY_TABLE_PARSECODE_DIR, file)
+				dstpath = os.path.join(UNITY_TABLE_CODE_DIR, file)
+				shutil.copy(srcpath, dstpath)
