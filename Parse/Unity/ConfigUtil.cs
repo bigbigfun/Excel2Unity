@@ -49,4 +49,24 @@ public class ConfigUtil
     {
         return JsonUtility.FromJson<Dictionary<string, string>>(data);
     }
+
+    static string  GetGameDataPath()
+    {
+        string path = "";
+#if UNITY_EDITOR
+        path = Application.dataPath + "/GameData/";
+#else
+
+        //or sandbox dir.
+        path = Application.streamingAssetsPath + "/GameData/";
+#endif
+
+        return path;
+    }
+
+    public static string GetTableDataPath()
+    {
+        string tableDataPath = GetGameDataPath() + "TableData/";
+        return tableDataPath;
+    }
 }

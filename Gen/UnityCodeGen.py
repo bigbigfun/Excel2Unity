@@ -91,7 +91,7 @@ class UnityCodeGen(CodeGen):
 		self.mFileContent += "\n"
 		self.mFileContent += "	public void InitTable()\n"
 		self.mFileContent += "	{\n"
-		self.mFileContent += "		string tableDir = PathUtil.GetTableDataPath();\n"
+		self.mFileContent += "		string tableDir = ConfigUtil.GetTableDataPath();\n"
 		self.mFileContent += "		string tableName = \"" + tablename + "\";\n"
 		self.mFileContent += "		string path = string.Format(\"{0}{1}.txt\", tableDir, tablename);\n "	#	引号里面有引号的用法
 		self.mFileContent += "		StreamReader sr = new StreamReader(path, Encoding.UTF8);\n"
@@ -125,7 +125,6 @@ class UnityCodeGen(CodeGen):
 		self.mFileContent += "	private " + tablemgrname + "() { }\n"
 		self.mFileContent += "\n"
 		self.mFileContent += "	public static readonly " + tablemgrname + " Instance = new " + tablemgrname + "();\n"
-
 		self.mFileContent += "}\n"
 
         # 保存
