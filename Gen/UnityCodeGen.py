@@ -267,3 +267,4 @@ class UnityCodeGen(CodeGen):
 				srcpath = os.path.join(UNITY_TABLE_PARSECODE_DIR, file)
 				dstpath = os.path.join(UNITY_TABLE_CODE_DIR, file)
 				shutil.copy(srcpath, dstpath)
+
