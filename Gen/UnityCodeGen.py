@@ -47,8 +47,7 @@ class UnityCodeGen(CodeGen):
 			fieldtype = table.cell(2, index).value
 			fieldname = table.cell(3, index).value
 			fieldtype = fieldtype.lower()
-			self.mFileContent += "	public " + fieldtype + " " + fieldname + ";"
-			self.mFileContent += "			//		" + fielddesc + "\n"
+			self.define_fieldtype(fieldtype, fieldname, fielddesc)
 
 		self.mFileContent += "\n"
 		self.mFileContent += "	public " + tablename + "(string line)\n"
@@ -132,10 +131,55 @@ class UnityCodeGen(CodeGen):
 		file.write(self.mFileContent.encode())
 		file.close()
 
+	# 定义字段类型
+	def define_fieldtype(self, fieldtype, fieldname, fielddesc):
+		if fieldtype == "int" or fieldtype == "float" or fieldtype == "string":
+			self.mFileContent += "	public " + fieldtype + " " + fieldname + ";"
+		elif fieldtype == "list[int]":
+			self.mFileContent += "	public List<int> " + fieldname + " = new List<int>();"
+		elif fieldtype == "list[float]":
+			self.mFileContent += "	public List<float> " + fieldname + " = new List<float>();"
+		elif fieldtype == "list[string]":
+			self.mFileContent += "	public List<string> " + fieldname + " = new List<string>();"
+		elif fieldtype == "map[int|int]":
+			self.mFileContent += "	public Dictionary<int, int> " + fieldname + " = new Dictionary<int, int>();"
+		elif fieldtype == "map[int|float]":
+			self.mFileContent += "	public Dictionary<int, float> " + fieldname + " = new Dictionary<int, float>();"
+		elif fieldtype == "map[int|string]":
+			self.mFileContent += "	public Dictionary<int, string> " + fieldname + " = new Dictionary<int, string>();"
+		elif fieldtype == "map[string|int]":
+			self.mFileContent += "	public Dictionary<string, int> " + fieldname + " = new Dictionary<string, int>();"
+		elif fieldtype == "map[string|float]":
+			self.mFileContent += "	public Dictionary<string, float> " + fieldname + " = new Dictionary<string, float>();"
+		elif fieldtype == "map[string|string]":
+			self.mFileContent += "	public Dictionary<string, string> " + fieldname + " = new Dictionary<string, string>();"
+
+		self.mFileContent += "			//		" + fielddesc + "\n"
+
 	# 解析字段类型
 	def parse_fieldtype(self, fieldtype, fieldname, index):
-		if fieldtype == "int" or fieldtype == "float" or fieldtype == "string":
-			self.mFileContent += "		" + fieldname + " = " + fieldtype + ".Parse(fields[" + str(index) + "])\n"
+		if fieldtype == "int" or fieldtype == "float":
+			self.mFileContent += "		" + fieldname + " = " + fieldtype + ".Parse(fields[" + str(index) + "]);\n"
+		elif fieldtype == "string":
+			self.mFileContent += "		" + fieldname + " = fields[" + str(index) + "];\n"
+		elif fieldtype == "list[int]":
+			self.mFileContent += "		" + fieldname + " = ConfigUtil.ParseListInt(fields[" + str(index) + "]);\n"
+		elif fieldtype == "list[float]":
+			self.mFileContent += "		" + fieldname + " = ConfigUtil.ParseListFloat(fields[" + str(index) + "]);\n"
+		elif fieldtype == "list[string]":
+			self.mFileContent += "		" + fieldname + " = ConfigUtil.ParseListString(fields[" + str(index) + "]);\n"
+		elif fieldtype == "map[int|int]":
+			self.mFileContent += "		" + fieldname + " = ConfigUtil.ParseDictIntInt(fields[" + str(index) + "]);\n"
+		elif fieldtype == "map[int|float]":
+			self.mFileContent += "		" + fieldname + " = ConfigUtil.ParseDictIntFloat(fields[" + str(index) + "]);\n"
+		elif fieldtype == "map[int|string]":
+			self.mFileContent += "		" + fieldname + " = ConfigUtil.ParseDictIntString(fields[" + str(index) + "]);\n"
+		elif fieldtype == "map[string|int]":
+			self.mFileContent += "		" + fieldname + " = ConfigUtil.ParseDictStringInt(fields[" + str(index) + "]);\n"
+		elif fieldtype == "map[string|float]":
+			self.mFileContent += "		" + fieldname + " = ConfigUtil.ParseDictStringFloat(fields[" + str(index) + "]);\n"
+		elif fieldtype == "map[string|string]":
+			self.mFileContent += "		" + fieldname + " = ConfigUtil.ParseDictStringString(fields[" + str(index) + "]);\n"
 
 	# 生成生成数据函数
 	def gen_gendatafunc(self, table, tablename, keylist):
