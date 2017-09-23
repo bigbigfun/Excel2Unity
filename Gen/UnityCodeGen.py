@@ -15,6 +15,7 @@ import shutil
 
 
 class UnityCodeGen(CodeGen):
+	# 构造函数
 	def __init__(self):
 		self.mFileContent = ""
 

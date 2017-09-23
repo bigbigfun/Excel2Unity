@@ -27,7 +27,13 @@ class UnityDataGen(DataGen):
 		for row in range(5, table.nrows):
 			for col in range(table.ncols):
 				if col in fields:
-					fileContent += ("{0}\t").format(table.cell(row, col).value)
+					fieldtype = table.cell(2, col).value
+					fieldtype = fieldtype.lower()
+					fieldvalue = table.cell(row, col).value
+					if fieldtype == "int":
+						fieldvalue = int(fieldvalue)
+
+					fileContent += ("{0}\t").format(fieldvalue)
 
 			fileContent += "\n"
 
