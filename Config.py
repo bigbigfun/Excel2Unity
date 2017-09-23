@@ -1,16 +1,9 @@
 
-
 # Excel文件目录
 EXCEL_DIR = "./Excel"
 
-# Unity数据目录
-UNITY_TABLE_DATA_DIR = "./UnityData/"
-
-# Unity代码目录
-UNITY_TABLE_CODE_DIR = "./UnityCode/"
-
-# Unity解析文件目录
-UNITY_TABLE_PARSECODE_DIR = "./Parse/Unity/"
+# excel文件的后缀
+EXCEL_EXT = ".xlsx"
 
 # unity表格字段的过滤
 UNITY_TABLE_FIELD_FILTER = ["cs", "c", "CS", "C"]
@@ -21,8 +14,20 @@ SERVER_TABLE_FIELD_FILTER = ["cs", "s", "CS", "S"]
 # key的修饰符名字
 KEY_MODIFIER_NAME = "KEY"
 
-# excel文件的后缀
-EXCEL_EXT = ".xlsx"
+#Unity输出根目录
+#UNITY_TABLE_ROOT_DIR = "./"
+UNITY_TABLE_ROOT_DIR = "./TestTable/Assets/"
+
+# Unity数据目录
+#UNITY_TABLE_DATA_DIR = "UnityData/"
+UNITY_TABLE_DATA_DIR = "GameData/TableData/"
+
+# Unity代码目录
+#UNITY_TABLE_CODE_DIR = "UnityCode/"
+UNITY_TABLE_CODE_DIR = "Script/Table/"
+
+# Unity解析文件目录
+UNITY_TABLE_PARSECODE_DIR = "./Parse/Unity/"
 
 # unity数据的后缀
 UNITY_TABLE_DATA_EXT = ".txt"

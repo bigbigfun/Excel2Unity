@@ -1,11 +1,12 @@
 
 from Gen.CodeGen import CodeGen
+from Config import EXCEL_DIR
 from Config import KEY_MODIFIER_NAME
 from Config import UNITY_TABLE_CODE_DIR
 from Config import UNITY_TABLE_CODE_EXT
 from Config import UNITY_TABLE_PARSECODE_DIR
 from Config import UNITY_CONFIGMANAGER_FILENAME
-from Config import EXCEL_DIR
+from Config import UNITY_TABLE_ROOT_DIR
 import os
 import shutil
 
@@ -91,9 +92,9 @@ class UnityCodeGen(CodeGen):
 		self.mFileContent += "\n"
 		self.mFileContent += "	public void InitTable()\n"
 		self.mFileContent += "	{\n"
-		self.mFileContent += "		string tableDir = ConfigUtil.GetTableDataPath();\n"
+		self.mFileContent += "		string tableDir = ConfigUtil.GetGameDataPath();\n"
 		self.mFileContent += "		string tableName = \"" + tablename + "\";\n"
-		self.mFileContent += "		string path = string.Format(\"{0}{1}.txt\", tableDir, tablename);\n "	#	引号里面有引号的用法
+		self.mFileContent += "		string path = string.Format(\"{0}{1}.txt\", tableDir, tableName);\n "	#	引号里面有引号的用法
 		self.mFileContent += "		StreamReader sr = new StreamReader(path, Encoding.UTF8);\n"
 		self.mFileContent += "		string line;\n"
 		self.mFileContent += "\n"
