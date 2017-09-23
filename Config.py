@@ -1,4 +1,5 @@
 
+# --------------------------------Excel--------------------------------
 # Excel文件目录
 EXCEL_DIR = "./Excel"
 
@@ -14,6 +15,7 @@ SERVER_TABLE_FIELD_FILTER = ["cs", "s", "CS", "S"]
 # key的修饰符名字
 KEY_MODIFIER_NAME = "KEY"
 
+# --------------------------------Unity--------------------------------
 #Unity输出根目录
 #UNITY_TABLE_ROOT_DIR = "./"
 UNITY_TABLE_ROOT_DIR = "./TestTable/Assets/"
@@ -37,3 +39,5 @@ UNITY_TABLE_CODE_EXT = ".cs"
 
 # unity的配置管理文件名
 UNITY_CONFIGMANAGER_FILENAME = "ConfigManager"
+
+# --------------------------------Server--------------------------------
