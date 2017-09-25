@@ -104,8 +104,8 @@ class UnityCodeGen(CodeGen):
 		datapath = datapath.replace("\\", "/")
 		datapath = datapath.replace("//", "/")
 		self.mFileContent += "		string path = rootdir + \"/" + datapath + "\";\n"	#	引号里面有引号的用法
-
-		self.mFileContent += "		StreamReader sr = new StreamReader(path, Encoding.UTF8);\n"
+		self.mFileContent += "		FileStream filestream = new FileStream(path, FileMode.Open, FileAccess.Read);\n"
+		self.mFileContent += "		StreamReader sr = new StreamReader(filestream, Encoding.UTF8);\n"
 		self.mFileContent += "		string line;\n"
 		self.mFileContent += "\n"
 		self.mFileContent += "		while ((line = sr.ReadLine()) != null)\n"

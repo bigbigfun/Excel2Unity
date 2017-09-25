@@ -26,7 +26,7 @@ UNITY_TABLE_DATA_DIR = "GameData/TableData/"
 
 # Unity代码目录
 #UNITY_TABLE_CODE_DIR = "UnityCode/"
-UNITY_TABLE_CODE_DIR = "Script/Table/"
+UNITY_TABLE_CODE_DIR = "Scripts/Table/"
 
 # Unity解析文件目录
 UNITY_TABLE_PARSECODE_DIR = "./Parse/Unity/"
