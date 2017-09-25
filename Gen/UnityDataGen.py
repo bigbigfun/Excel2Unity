@@ -3,6 +3,9 @@ from Config import EXCEL_DIR
 from Config import UNITY_TABLE_ROOT_DIR
 from Config import UNITY_TABLE_DATA_DIR
 from Config import UNITY_TABLE_DATA_EXT
+from Config import UINTY_TABLE_USE_RESOURCE_PATH_READ
+from Config import UINTY_RESOURCE_PATH_NAME
+from Config import UINTY_STREAMINGASSETS_PATH_NAME
 from Gen.DataGen import DataGen
 import os;
 
@@ -13,7 +16,13 @@ class UnityDataGen(DataGen):
 	def process(self, filename, fields, table):
 		# 创建输出路径
 		path = filename.replace(EXCEL_DIR, "")
-		path = UNITY_TABLE_ROOT_DIR + UNITY_TABLE_DATA_DIR + path
+
+		if UINTY_TABLE_USE_RESOURCE_PATH_READ == True:
+			rootpath = UNITY_TABLE_ROOT_DIR + UINTY_RESOURCE_PATH_NAME
+		else:
+			rootpath = UNITY_TABLE_ROOT_DIR
+
+		path = rootpath + UNITY_TABLE_DATA_DIR + path
 		path = os.path.splitext(path)[0]
 		path += UNITY_TABLE_DATA_EXT
 

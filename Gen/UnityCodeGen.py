@@ -10,6 +10,7 @@ from Config import UNITY_TABLE_DATA_DIR
 from Config import UNITY_TABLE_DATA_EXT
 from Config import UNITY_TABLE_PARSECODE_DIR
 from Config import UNITY_CONFIGMANAGER_FILENAME
+from Config import UINTY_TABLE_USE_RESOURCE_PATH_READ
 import os
 import shutil
 
@@ -96,21 +97,20 @@ class UnityCodeGen(CodeGen):
 		self.mFileContent += "\n"
 		self.mFileContent += "	public void InitTable()\n"
 		self.mFileContent += "	{\n"
-		self.mFileContent += "		string rootdir = ConfigUtil.GetGameDataPath();\n"
 
 		datapath = filename.replace(EXCEL_DIR, "")
 		datapath = datapath.replace(EXCEL_EXT, "")
-		datapath = UNITY_TABLE_DATA_DIR + datapath + UNITY_TABLE_DATA_EXT
+		if UINTY_TABLE_USE_RESOURCE_PATH_READ == True:
+			datapath = UNITY_TABLE_DATA_DIR + datapath
+		else:
+			datapath = UNITY_TABLE_DATA_DIR + datapath + UNITY_TABLE_DATA_EXT
 		datapath = datapath.replace("\\", "/")
 		datapath = datapath.replace("//", "/")
-		self.mFileContent += "		string path = rootdir + \"/" + datapath + "\";\n"	#	引号里面有引号的用法
-		self.mFileContent += "		FileStream filestream = new FileStream(path, FileMode.Open, FileAccess.Read);\n"
-		self.mFileContent += "		StreamReader sr = new StreamReader(filestream, Encoding.UTF8);\n"
-		self.mFileContent += "		string line;\n"
-		self.mFileContent += "\n"
-		self.mFileContent += "		while ((line = sr.ReadLine()) != null)\n"
+		self.mFileContent += "		string data = ConfigUtil.GetConfigData(\"" + datapath + "\");\n"
+		self.mFileContent += "		string[] splits = data.Split('" + "\\" + "n" + "');\n"
+		self.mFileContent += "		foreach (string split in splits)\n"
 		self.mFileContent += "		{\n"
-		self.mFileContent += "			line = line.Trim();\n"
+		self.mFileContent += "			string line = split.Trim();\n"
 		self.mFileContent += "			if (line.Length > 0)\n"
 		self.mFileContent += "			{\n"
 		self.mFileContent += "				" + tablename + " rowdata = new " + tablename + "(line);\n"

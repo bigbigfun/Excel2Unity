@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
+using System.Text;
 
 public class ConfigUtil
 {
@@ -21,17 +23,45 @@ public class ConfigUtil
 
     #region 函数
 
-    public static string GetGameDataPath()
+    /// <summary>
+    /// 得到数据路径
+    /// </summary>
+    /// <returns></returns>
+    public static string GetConfigDataPath()
     {
         string path = "";
-#if UNITY_EDITOR
+
+    #if UNITY_EDITOR
         path = Application.dataPath;
 #else
         //or sandbox dir.
-        path = Application.streamingAssetsPath;
+        path = Application.persistentDataPath;
 #endif
 
         return path;
+    }
+
+    /// <summary>
+    /// 得到配置数据
+    /// </summary>
+    /// <param name="path"></param>
+    /// <param name="userespath"></param>
+    /// <returns></returns>
+    public static string GetConfigData(string path, bool userespath = true)
+    {
+        string data = "";
+        if (userespath)
+        {
+            data = Resources.Load(path).ToString();
+        }
+        else
+        {
+            path = GetConfigDataPath() + path;
+            StreamReader sr = new StreamReader(path, Encoding.UTF8);
+            data = sr.ReadToEnd();
+        }
+
+        return data;
     }
 
     public static List<int> ParseListInt(string data)
