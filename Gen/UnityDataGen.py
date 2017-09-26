@@ -20,7 +20,7 @@ class UnityDataGen(DataGen):
 		if UINTY_TABLE_USE_RESOURCE_PATH_READ == True:
 			rootpath = UNITY_TABLE_ROOT_DIR + UINTY_RESOURCE_PATH_NAME
 		else:
-			rootpath = UNITY_TABLE_ROOT_DIR
+			rootpath = UNITY_TABLE_ROOT_DIR + UINTY_STREAMINGASSETS_PATH_NAME
 
 		path = rootpath + UNITY_TABLE_DATA_DIR + path
 		path = os.path.splitext(path)[0]

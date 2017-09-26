@@ -56,7 +56,7 @@ public class ConfigUtil
         }
         else
         {
-            path = GetConfigDataPath() + path;
+            path = GetConfigDataPath() + "/" + path;
             StreamReader sr = new StreamReader(path, Encoding.UTF8);
             data = sr.ReadToEnd();
         }

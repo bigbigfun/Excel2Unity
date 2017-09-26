@@ -17,7 +17,7 @@ KEY_MODIFIER_NAME = "KEY"
 
 # --------------------------------Unity--------------------------------
 # Unity使用资源路径读取
-UINTY_TABLE_USE_RESOURCE_PATH_READ = True
+UINTY_TABLE_USE_RESOURCE_PATH_READ = False
 
 #Unity输出根目录
 #UNITY_TABLE_ROOT_DIR = "./"
