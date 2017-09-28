@@ -30,7 +30,8 @@
     
 *   Excel配置使用
     
-    ![效果图](https://github.com/xieliujian/UnityDemo/blob/master/Snapshot/UIModelShow/MainCam.png)
+    ![](https://raw.githubusercontent.com/xieliujian/Excel2Unity/master/Snapshots/QQ%E6%88%AA%E5%9B%BE20170928092831.bmp)
+    
     
     
     
