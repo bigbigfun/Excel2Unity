@@ -6,7 +6,7 @@
 * 目前功能 
     * 导出txt文本文件并生成相应的解析代码到unity(客户端)
     
-* 使用方法
+* 代码修改
 
     打开`Config.py`文件, 修改几个配置属性
     
@@ -20,3 +20,16 @@
     # Unity代码目录
     UNITY_TABLE_CODE_DIR = "Scripts/Table/"   
     ```
+    
+    有一个配置行暂时不需要修改, 目前配置文件都默认生成在Resources文件夹下
+    ， 通过Resources.Load()加载，资源动态加载还没有完成
+    ```python
+    # Unity使用资源路径读取
+    UINTY_TABLE_USE_RESOURCE_PATH_READ = True
+    ```
+    
+*   Excel配置使用
+    
+    
+    
+    
