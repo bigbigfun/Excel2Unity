@@ -30,6 +30,7 @@
     
 *   Excel配置使用
     
+    ![](http://www.baidu.com/img/bdlogo.gif)
     
     
     
