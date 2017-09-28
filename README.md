@@ -10,8 +10,8 @@
 
     打开`Config.py`文件, 修改几个配置属性
     
-    ```cs
-    #Unity输出根目录
+    ```python
+    # Unity输出根目录
     UNITY_TABLE_ROOT_DIR = "./TestTable/Assets/"
     
     # Unity数据目录
@@ -20,4 +20,3 @@
     # Unity代码目录
     UNITY_TABLE_CODE_DIR = "Scripts/Table/"   
     ```
-    
