@@ -11,7 +11,9 @@
 
     * 1, 源代码使用的python3，需要安装python3安装包
     
-    * 2, IDE使用的`pycharm`, 推荐使用`pycharm`开发python
+    * 2, 导入xlrd包
+        
+    * 3, IDE使用的`pycharm`, 推荐使用`pycharm`开发python
    
 * 代码修改
 
