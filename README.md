@@ -30,7 +30,7 @@
     
 *   Excel配置使用
     
-    ![](http://www.baidu.com/img/bdlogo.gif)
+    ![效果图](https://github.com/xieliujian/UnityDemo/blob/master/Snapshot/UIModelShow/MainCam.png)
     
     
     
