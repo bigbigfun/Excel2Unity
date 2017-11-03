@@ -53,3 +53,19 @@ UINTY_STREAMINGASSETS_PATH_NAME = "StreamingAssets/"
 
 # 服务器代码类型
 SERVER_CODE_TYPE = "Go"
+
+# 服务器输出根目录
+SERVER_TABLE_ROOT_DIR = "./"
+
+# 服务器数据目录
+SERVER_TABLE_DATA_DIR = "GameData/TableData/"
+
+# 服务器代码目录
+SERVER_TABLE_CODE_DIR = "Table/"
+
+# 服务器数据的后缀
+SERVER_TABLE_DATA_EXT = ".txt"
+
+# 服务器代码的后缀
+SERVER_TABLE_CODE_EXT = ".go"
+
