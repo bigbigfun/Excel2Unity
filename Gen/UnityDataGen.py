@@ -7,7 +7,7 @@ from Config import UINTY_TABLE_USE_RESOURCE_PATH_READ
 from Config import UINTY_RESOURCE_PATH_NAME
 from Config import UINTY_STREAMINGASSETS_PATH_NAME
 from Gen.DataGen import DataGen
-import os;
+import os
 
 
 class UnityDataGen(DataGen):

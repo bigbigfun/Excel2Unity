@@ -6,6 +6,7 @@ from Config import UNITY_TABLE_FIELD_FILTER
 from Config import SERVER_TABLE_FIELD_FILTER
 from Config import EXCEL_EXT
 from Config import SERVER_CODE_TYPE
+from Config import SERVER_GO_CODE_TYPE
 from Gen.UnityDataGen import UnityDataGen
 from Gen.UnityCodeGen import UnityCodeGen
 from Gen.GoDataGen import GoDataGen
@@ -58,7 +59,7 @@ class Excel2Unity:
 	def process_excel_server(self, filename, table):
 		fields = self.filter_fielddata(table, SERVER_TABLE_FIELD_FILTER)
 
-		if SERVER_CODE_TYPE == "Go":
+		if SERVER_CODE_TYPE == SERVER_GO_CODE_TYPE:
 			GoDataGen().process(filename, fields, table)
 			GoCodeGen().process(filename, fields, table)
 
