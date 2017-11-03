@@ -33,10 +33,10 @@ public class ConfigUtil
 
     #if UNITY_EDITOR
         path = Application.dataPath;
-#else
+    #else
         //or sandbox dir.
         path = Application.persistentDataPath;
-#endif
+    #endif
 
         return path;
     }

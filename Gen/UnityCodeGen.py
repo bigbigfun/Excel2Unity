@@ -193,7 +193,7 @@ class UnityCodeGen(CodeGen):
 		elif fieldtype == "map[string|string]":
 			self.mFileContent += "		" + fieldname + " = ConfigUtil.ParseDictStringString(fields[" + str(index) + "]);\n"
 
-	# 生成生成数据函数
+	# 生成数据函数
 	def gen_gendatafunc(self, table, tablename, keylist):
 		keylen = keylist.__len__()
 		if keylen == 0:		# 没有key值没有生成函数

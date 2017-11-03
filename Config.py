@@ -50,3 +50,6 @@ UINTY_RESOURCE_PATH_NAME = "Resources/"
 UINTY_STREAMINGASSETS_PATH_NAME = "StreamingAssets/"
 
 # --------------------------------Server--------------------------------
+
+# 服务器代码类型
+SERVER_CODE_TYPE = "Go"
