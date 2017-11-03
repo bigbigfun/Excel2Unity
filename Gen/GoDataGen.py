@@ -7,7 +7,9 @@ class GoDataGen(DataGen):
 	def process(self, filename, fields, table):
 		print("GoDataGen : process")
 
-	
+
+
+
 
 
 
