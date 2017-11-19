@@ -31,12 +31,21 @@ class GoCodeGen(CodeGen):
 		tablebasename = tablebasename.split(".")[0]
 		tablename = tablebasename + "Cfg"
 
+		# 获得keylist
+		keylist = []
+		for index in fields:
+			value = table.cell(4, index).value
+			if value == KEY_MODIFIER_NAME:
+				keylist.append(index)
+		uselist = (keylist.__len__() != 1)
+
 		self.mFileContent = "\n"
 		self.mFileContent += "package gamedata\n\n"
 
-		self.mFileContent += "import (\n"
-		self.mFileContent += "\t\"container/list\"\n"
-		self.mFileContent += ")\n\n"
+		if uselist:
+			self.mFileContent += "import (\n"
+			self.mFileContent += "\t\"container/list\"\n"
+			self.mFileContent += ")\n\n"
 
 		self.mFileContent += "type " + tablename + " struct {\n"
 		for index in fields:
@@ -47,15 +56,7 @@ class GoCodeGen(CodeGen):
 			self.define_fieldtype(fieldtype, fieldname, fielddesc)
 		self.mFileContent += "}\n\n"
 
-		# 获得keylist
-		keylist = []
-		for index in fields:
-			value = table.cell(4, index).value
-			if value == KEY_MODIFIER_NAME:
-				keylist.append(index)
-
 		# 根据keylist判断
-		uselist = (keylist.__len__() != 1)
 		self.mFileContent += "var (\n"
 		if uselist:
 			self.mFileContent += "\t{0}Data := list.New()\n".format(tablename)
