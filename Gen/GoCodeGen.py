@@ -126,7 +126,6 @@ class GoCodeGen(CodeGen):
 		for file in files:
 			tablename = os.path.basename(file)
 			tablename = tablename.split(".")[0]
-			tablename += "Cfg"
 			filecontent += "\t{0}Init()\n".format(tablename)
 		filecontent += "}\n"
 
