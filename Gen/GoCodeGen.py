@@ -1,9 +1,9 @@
 
 from Gen.CodeGen import CodeGen
 from Config import EXCEL_DIR
-from Config import SERVER_TABLE_ROOT_DIR
 from Config import SERVER_TABLE_CODE_DIR
 from Config import KEY_MODIFIER_NAME
+from Config import SERVER_TABLE_ROOT_DIR
 from Config import SERVER_CONFIGMANAGER_FILENAME
 from Util import getServerCodeExt
 import os
@@ -66,7 +66,7 @@ class GoCodeGen(CodeGen):
 		self.mFileContent += ")\n\n"
 
 		self.mFileContent += "func " + tablename + "Init() {\n"
-		self.mFileContent += "\trf := reafRf(" + tablename + "{})\n"
+		self.mFileContent += "\trf := readRf(" + tablename + "{})\n"
 		self.mFileContent += "\tfor i := 0; i < rf.NumRecord(); i++ {\n"
 		self.mFileContent += "\t\tr := rf.Record(i).(*{0})\n".format(tablename)
 		fieldname = table.cell(3, 0).value
@@ -95,19 +95,19 @@ class GoCodeGen(CodeGen):
 		elif fieldtype == "list[int]":
 			self.mFileContent += fieldname + " []int"
 		elif fieldtype == "list[float]":
-			self.mFileContent += fieldname + " []float"
+			self.mFileContent += fieldname + " []float32"
 		elif fieldtype == "list[string]":
 			self.mFileContent += fieldname + " []string"
 		elif fieldtype == "map[int|int]":
 			self.mFileContent += fieldname + " map[int]int"
 		elif fieldtype == "map[int|float]":
-			self.mFileContent += fieldname + " map[int]float"
+			self.mFileContent += fieldname + " map[int]float32"
 		elif fieldtype == "map[int|string]":
 			self.mFileContent += fieldname + " map[int]string"
 		elif fieldtype == "map[string|int]":
 			self.mFileContent += fieldname + " map[string]int"
 		elif fieldtype == "map[string|float]":
-			self.mFileContent += fieldname + " map[string]float"
+			self.mFileContent += fieldname + " map[string]float32"
 		elif fieldtype == "map[string|string]":
 			self.mFileContent += fieldname + " map[string]string"
 
@@ -116,7 +116,7 @@ class GoCodeGen(CodeGen):
 	# 生成配置管理类
 	@staticmethod
 	def gen_configmangercode(files):
-		path = SERVER_TABLE_CODE_DIR + SERVER_CONFIGMANAGER_FILENAME + getServerCodeExt()
+		path = SERVER_TABLE_ROOT_DIR + SERVER_TABLE_CODE_DIR + SERVER_CONFIGMANAGER_FILENAME + getServerCodeExt()
 
 		filecontent = "\n"
 		filecontent += "package gamedata\n\n"

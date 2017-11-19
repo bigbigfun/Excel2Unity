@@ -60,13 +60,16 @@ SERVER_GO_CODE_EXT = ".go"
 SERVER_CODE_TYPE = "Go"
 
 # 服务器输出根目录
-SERVER_TABLE_ROOT_DIR = "./"
+#SERVER_TABLE_ROOT_DIR = "./"
+SERVER_TABLE_ROOT_DIR = "../../UnityGameFramework/trunk/Server/"
 
 # 服务器数据目录
-SERVER_TABLE_DATA_DIR = "GameData/TableData/"
+#SERVER_TABLE_DATA_DIR = "GameData/TableData/"
+SERVER_TABLE_DATA_DIR = "bin/gamedata/"
 
 # 服务器代码目录
-SERVER_TABLE_CODE_DIR = "Table/"
+#SERVER_TABLE_CODE_DIR = "Table/"
+SERVER_TABLE_CODE_DIR = "src/server/gamedata/"
 
 # 服务器数据的后缀
 SERVER_TABLE_DATA_EXT = ".txt"
