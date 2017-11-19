@@ -29,7 +29,7 @@ class GoCodeGen(CodeGen):
 		# 填充内容
 		tablebasename = os.path.basename(path)
 		tablebasename = tablebasename.split(".")[0]
-		tablename = tablebasename + "Cfg"
+		tablename = tablebasename
 
 		# 获得keylist
 		keylist = []
