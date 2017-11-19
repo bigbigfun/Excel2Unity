@@ -92,7 +92,9 @@ class UnityCodeGen(CodeGen):
 		if uselist:
 			self.mFileContent += "	private List<" + tablename + "> mList = new List<" + tablename + ">();\n"
 		else:
-			self.mFileContent += "	private Dictionary<int, " + tablename + "> mDict = new Dictionary<int, " + tablename + ">();\n"
+			fieldtype = table.cell(2, keylist[0]).value
+			fieldtype = fieldtype.lower()
+			self.mFileContent += "	private Dictionary<{0}, " + tablename + "> mDict = new Dictionary<{0}, " + tablename + ">();\n".format(fieldtype)
 
 		self.mFileContent += "\n"
 		self.mFileContent += "	public void InitTable()\n"

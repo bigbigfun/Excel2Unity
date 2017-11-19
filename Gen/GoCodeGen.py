@@ -3,9 +3,9 @@ from Gen.CodeGen import CodeGen
 from Config import EXCEL_DIR
 from Config import SERVER_TABLE_ROOT_DIR
 from Config import SERVER_TABLE_CODE_DIR
-from Config import SERVER_GO_CODE_TYPE
-from Config import SERVER_CODE_TYPE
-from Config import SERVER_GO_CODE_EXT
+from Config import KEY_MODIFIER_NAME
+from Config import SERVER_CONFIGMANAGER_FILENAME
+from Util import getServerCodeExt
 import os
 
 class GoCodeGen(CodeGen):
@@ -19,28 +19,120 @@ class GoCodeGen(CodeGen):
 		path = filename.replace(EXCEL_DIR, "")
 		path = SERVER_TABLE_ROOT_DIR + SERVER_TABLE_CODE_DIR + path
 		path = os.path.splitext(path)[0]
-		path = path + self.getServerCodeExt()
+		path = path + getServerCodeExt()
 
 		# 生成文件目录, 不重复创建目录
 		filedir = os.path.dirname(path)
 		if os.path.exists(filedir) == False:
 			os.makedirs(filedir)
 
+		# 填充内容
+		tablebasename = os.path.basename(path)
+		tablebasename = tablebasename.split(".")[0]
+		tablename = tablebasename + "Cfg"
+
+		self.mFileContent = "\n"
+		self.mFileContent += "package gamedata\n\n"
+
+		self.mFileContent += "import (\n"
+		self.mFileContent += "\t\"container/list\"\n"
+		self.mFileContent += ")\n\n"
+
+		self.mFileContent += "type " + tablename + " struct {\n"
+		for index in fields:
+			fielddesc = table.cell(0, index).value
+			fieldtype = table.cell(2, index).value
+			fieldname = table.cell(3, index).value
+			fieldtype = fieldtype.lower()
+			self.define_fieldtype(fieldtype, fieldname, fielddesc)
+		self.mFileContent += "}\n\n"
+
+		# 获得keylist
+		keylist = []
+		for index in fields:
+			value = table.cell(4, index).value
+			if value == KEY_MODIFIER_NAME:
+				keylist.append(index)
+
+		# 根据keylist判断
+		uselist = (keylist.__len__() != 1)
+		self.mFileContent += "var (\n"
+		if uselist:
+			self.mFileContent += "\t{0}Data := list.New()\n".format(tablename)
+		else:
+			fieldtype = table.cell(2, keylist[0]).value
+			fieldtype = fieldtype.lower()
+			self.mFileContent += "\t{0}Data = make(map[{1}]{2})\n".format(tablename, fieldtype, tablename)
+		self.mFileContent += ")\n\n"
+
+		self.mFileContent += "func " + tablename + "Init() {\n"
+		self.mFileContent += "\trf := reafRf(" + tablename + "{})\n"
+		self.mFileContent += "\tfor i := 0; i < rf.NumRecord(); i++ {\n"
+		self.mFileContent += "\t\tr := rf.Record(i).(*{0})\n".format(tablename)
+		fieldname = table.cell(3, 0).value
+		if uselist:
+			self.mFileContent += "\t\t{0}Data.PushBack(*r)\n"
+		else:
+			self.mFileContent += "\t\t{0}Data[r.{1}] = *r\n".format(tablename, fieldname)
+		self.mFileContent += "\t}\n"
+		self.mFileContent += "}\n"
+
+		# 获取函数
+		# self.mFileContent += "func Get" + tablename + "ByID(id int) (" + tablename + ") {\n"
+		# self.mFileContent += "	return  {0}Data[id]\n".format(tablename)
+		# self.mFileContent += "}\n"
+
 		# 保存
 		file = open(path, "wb")
 		file.write(self.mFileContent.encode())
 		file.close()
 
-	# 获取服务器后缀
-	def getServerCodeExt(self):
-		if SERVER_GO_CODE_TYPE == SERVER_CODE_TYPE:
-			return SERVER_GO_CODE_EXT
+	# 定义字段类型
+	def define_fieldtype(self, fieldtype, fieldname, fielddesc):
+		self.mFileContent += "\t"
+		if fieldtype == "int" or fieldtype == "float" or fieldtype == "string":
+			self.mFileContent += fieldname + " " + fieldtype
+		elif fieldtype == "list[int]":
+			self.mFileContent += fieldname + " []int"
+		elif fieldtype == "list[float]":
+			self.mFileContent += fieldname + " []float"
+		elif fieldtype == "list[string]":
+			self.mFileContent += fieldname + " []string"
+		elif fieldtype == "map[int|int]":
+			self.mFileContent += fieldname + " map[int]int"
+		elif fieldtype == "map[int|float]":
+			self.mFileContent += fieldname + " map[int]float"
+		elif fieldtype == "map[int|string]":
+			self.mFileContent += fieldname + " map[int]string"
+		elif fieldtype == "map[string|int]":
+			self.mFileContent += fieldname + " map[string]int"
+		elif fieldtype == "map[string|float]":
+			self.mFileContent += fieldname + " map[string]float"
+		elif fieldtype == "map[string|string]":
+			self.mFileContent += fieldname + " map[string]string"
 
-		return SERVER_GO_CODE_EXT
+		self.mFileContent += "			//		" + fielddesc + "\n"
 
+	# 生成配置管理类
+	@staticmethod
+	def gen_configmangercode(files):
+		path = SERVER_TABLE_CODE_DIR + SERVER_CONFIGMANAGER_FILENAME + getServerCodeExt()
 
+		filecontent = "\n"
+		filecontent += "package gamedata\n\n"
 
+		filecontent += "func LoadTables() {\n"
+		for file in files:
+			tablename = os.path.basename(file)
+			tablename = tablename.split(".")[0]
+			tablename += "Cfg"
+			filecontent += "\t{0}Init()\n".format(tablename)
+		filecontent += "}\n"
 
+		# 保存
+		file = open(path, "wb")
+		file.write(filecontent.encode())
+		file.close()
 
 
 

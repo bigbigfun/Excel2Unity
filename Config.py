@@ -71,3 +71,6 @@ SERVER_TABLE_CODE_DIR = "Table/"
 # 服务器数据的后缀
 SERVER_TABLE_DATA_EXT = ".txt"
 
+# 服务器配置管理文件名
+SERVER_CONFIGMANAGER_FILENAME = "ConfigManager"
+

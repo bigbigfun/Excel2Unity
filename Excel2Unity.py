@@ -49,6 +49,10 @@ class Excel2Unity:
 		UnityCodeGen.gen_configmangercode(self.mExcelFiles)
 		UnityCodeGen.copy_parsecode()
 
+		# 生成服务器的配置管理文件
+		if SERVER_CODE_TYPE == SERVER_GO_CODE_TYPE:
+			GoCodeGen.gen_configmangercode(self.mExcelFiles)
+
 	# client的excel的处理
 	def process_excel_client(self, filename, table):
 		fields = self.filter_fielddata(table, UNITY_TABLE_FIELD_FILTER)
