@@ -91,8 +91,10 @@ class GoCodeGen(CodeGen):
 	# 定义字段类型
 	def define_fieldtype(self, fieldtype, fieldname, fielddesc):
 		self.mFileContent += "\t"
-		if fieldtype == "int" or fieldtype == "float" or fieldtype == "string":
+		if fieldtype == "int" or fieldtype == "string":
 			self.mFileContent += fieldname + " " + fieldtype
+		elif fieldtype == "float":
+			self.mFileContent += fieldname + " float32"
 		elif fieldtype == "list[int]":
 			self.mFileContent += fieldname + " []int"
 		elif fieldtype == "list[float]":
