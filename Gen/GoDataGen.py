@@ -23,6 +23,8 @@ class GoDataGen(DataGen):
 			os.makedirs(filedir)
 
 		# 生成数据
+		fieldendval = fields[len(fields) - 1]
+
 		fileContent = ""
 		for row in range(5, table.nrows):
 			for col in range(table.ncols):
@@ -33,7 +35,10 @@ class GoDataGen(DataGen):
 					if fieldtype == "int":
 						fieldvalue = int(fieldvalue)
 
-					fileContent += ("{0}\t").format(fieldvalue)
+					if col == fieldendval:
+						fileContent += ("{0}").format(fieldvalue)
+					else:
+						fileContent += ("{0}\t").format(fieldvalue)
 
 			fileContent += "\n"
 
