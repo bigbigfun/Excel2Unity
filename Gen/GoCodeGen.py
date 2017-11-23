@@ -67,9 +67,9 @@ class GoCodeGen(CodeGen):
 		self.mFileContent += ")\n\n"
 
 		self.mFileContent += "func " + tablename + "Init() {\n"
-		self.mFileContent += "\trf := readRf(" + tablename + "{})\n"
-		self.mFileContent += "\tfor i := 0; i < rf.NumRecord(); i++ {\n"
-		self.mFileContent += "\t\tr := rf.Record(i).(*{0})\n".format(tablename)
+		self.mFileContent += "\tcf := ReadConfigFile(" + tablename + "{})\n"
+		self.mFileContent += "\tfor i := 0; i < cf.NumRecord(); i++ {\n"
+		self.mFileContent += "\t\tr := cf.Record(i).(*{0})\n".format(tablename)
 		fieldname = table.cell(3, 0).value
 		if uselist:
 			self.mFileContent += "\t\t{0}Data.PushBack(*r)\n"
