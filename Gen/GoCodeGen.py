@@ -91,6 +91,43 @@ class GoCodeGen(CodeGen):
 		# self.mFileContent += "	return  {0}Data[id]\n".format(tablename)
 		# self.mFileContent += "}\n"
 
+		keylen = keylist.__len__()
+		if keylen == 1:
+			keytype = table.cell(2, keylist[0]).value
+			keytype = keytype.lower()
+			self.mFileContent += "\n"
+			self.mFileContent += "func Get" + tablename + "ByID(id " + keytype + ") " + tablename + "{\n"
+			self.mFileContent += "\treturn " + tablename + "Data[id]\n"
+			self.mFileContent += "}\n"
+		elif keylen > 1:
+			self.mFileContent += "\n"
+
+			self.mFileContent += "func Get" + tablename + "ByID("
+			for keyindex in keylist:
+				keytype = table.cell(2, keyindex).value
+				keytype = keytype.lower()
+				keyval = table.cell(3, keyindex).value
+				self.mFileContent += "_" + keyval + " " + keytype
+				if keyindex != (keylen - 1):
+					self.mFileContent += ", "
+			self.mFileContent += ") " + tablename + " {\n"
+
+			self.mFileContent += "\tfor e := {0}Data.Front(); e != nil; e = e.Next() ".format(tablename) + "{\n"
+
+			self.mFileContent += "\t\tif "
+			for keyindex in keylist:
+				keyval = table.cell(3, keyindex).value
+				self.mFileContent += "e.Value.({0}).{1} == _{1}".format(tablename, keyval)
+				if keyindex != (keylen - 1):
+					self.mFileContent += " && "
+			self.mFileContent += " {\n"
+
+			self.mFileContent += "\t\t\treturn e.Value.({0})\n".format(tablename)
+			self.mFileContent += "\t\t}\n"
+			self.mFileContent += "\t}\n\n"
+			self.mFileContent += "\treturn {0}Data.Front().Value.({0})\n".format(tablename)
+			self.mFileContent += "}\n"
+
 		# 保存
 		file = open(path, "wb")
 		file.write(self.mFileContent.encode())
