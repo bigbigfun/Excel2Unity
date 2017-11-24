@@ -94,7 +94,7 @@ class UnityCodeGen(CodeGen):
 		else:
 			fieldtype = table.cell(2, keylist[0]).value
 			fieldtype = fieldtype.lower()
-			self.mFileContent += "	private Dictionary<{0}, " + tablename + "> mDict = new Dictionary<{0}, " + tablename + ">();\n".format(fieldtype)
+			self.mFileContent += "	private Dictionary<{0}, ".format(fieldtype) + tablename + "> mDict = new Dictionary<{0}, ".format(fieldtype) + tablename + ">();\n"
 
 		self.mFileContent += "\n"
 		self.mFileContent += "	public void InitTable()\n"
