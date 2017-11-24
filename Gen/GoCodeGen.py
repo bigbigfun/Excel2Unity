@@ -16,7 +16,9 @@ class GoCodeGen(CodeGen):
 	# 代码生成函数
 	def process(self, filename, fields, table):
 		# 创建输出路径
-		path = filename.replace(EXCEL_DIR, "")
+
+		# path = filename.replace(EXCEL_DIR, "")
+		path = os.path.basename(filename)		# 代码不生成在层级目录下
 		path = SERVER_TABLE_ROOT_DIR + SERVER_TABLE_CODE_DIR + path
 		path = os.path.splitext(path)[0]
 		path = path + getServerCodeExt()
@@ -30,6 +32,12 @@ class GoCodeGen(CodeGen):
 		tablebasename = os.path.basename(path)
 		tablebasename = tablebasename.split(".")[0]
 		tablename = tablebasename
+
+		# 获取相对目录
+		middir = filename.replace(EXCEL_DIR, "")
+		middirbasename = os.path.basename(middir)
+		middir = middir.replace(middirbasename, "")
+		middir = middir.replace("\\", "/")
 
 		# 获得keylist
 		keylist = []
@@ -59,7 +67,7 @@ class GoCodeGen(CodeGen):
 		# 根据keylist判断
 		self.mFileContent += "var (\n"
 		if uselist:
-			self.mFileContent += "\t{0}Data := list.New()\n".format(tablename)
+			self.mFileContent += "\t{0}Data = list.New()\n".format(tablename)
 		else:
 			fieldtype = table.cell(2, keylist[0]).value
 			fieldtype = fieldtype.lower()
@@ -67,12 +75,12 @@ class GoCodeGen(CodeGen):
 		self.mFileContent += ")\n\n"
 
 		self.mFileContent += "func " + tablename + "Init() {\n"
-		self.mFileContent += "\tcf := ReadConfigFile(" + tablename + "{})\n"
+		self.mFileContent += "\tcf := ReadConfigFile(" + tablename + "{}, " + "\"{0}\")\n".format(middir)
 		self.mFileContent += "\tfor i := 0; i < cf.NumRecord(); i++ {\n"
 		self.mFileContent += "\t\tr := cf.Record(i).(*{0})\n".format(tablename)
 		fieldname = table.cell(3, 0).value
 		if uselist:
-			self.mFileContent += "\t\t{0}Data.PushBack(*r)\n"
+			self.mFileContent += "\t\t{0}Data.PushBack(*r)\n".format(tablename)
 		else:
 			self.mFileContent += "\t\t{0}Data[r.{1}] = *r\n".format(tablename, fieldname)
 		self.mFileContent += "\t}\n"
